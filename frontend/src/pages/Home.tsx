@@ -22,7 +22,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 
 export function Home(){
     const { products } = useProductStore(); 
-    const { productsInBag } = useBagStore(); 
+    const { productsInBag, setProducts } = useBagStore(); 
     const { isOpen, close } = useDialogStore();
 
     const incrementAmmount = useBagStore((state) => state.incrementAmmount);
@@ -56,9 +56,8 @@ export function Home(){
             oi_.quantity = oi.ammount;
             order.items.push(oi_);
         });  
-        console.log(order);
-
         new OrderService().createOrder(order);
+        setProducts([]);
         close();
     }  
 
