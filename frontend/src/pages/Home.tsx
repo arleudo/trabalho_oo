@@ -5,6 +5,7 @@ import { Order, OrderItem, Product, User } from "@/models";
 import { ProductService } from "@/services/ProductService";
 import { useProductStore } from "@/store/useProductStore";
 import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast"
 import {
     Dialog,
     DialogContent,
@@ -29,6 +30,7 @@ export function Home(){
     const decrementAmmount = useBagStore((state) => state.decrementAmmount); 
     const [total, setTotal] = useState(0);
     const [user, setUser] = useState<User| null>(null);
+    const { toast } = useToast();
     
 
     useEffect(()=>{
@@ -58,7 +60,12 @@ export function Home(){
         });  
         new OrderService().createOrder(order);
         setProducts([]);
-        close();
+        toast({
+            variant: "destructive",
+            title: "Hi-Food",
+            description: "Pedido realizado com sucesso!",
+          });
+        close();        
     }  
 
     return (
